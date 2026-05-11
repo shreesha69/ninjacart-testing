@@ -1,8 +1,11 @@
-<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 <suite name="Ninja Suite">
 
-    <test name="Login Tests">
+    <listeners>
+        <listener class-name="com.krce.ninja.utils.ScreenshotListener"/>
+    </listeners>
+
+    <test name="UI Tests">
         <classes>
             <class name="com.krce.ninja.tests.AuthTest"/>
         </classes>
