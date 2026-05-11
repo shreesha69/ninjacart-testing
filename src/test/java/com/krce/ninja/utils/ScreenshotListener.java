@@ -37,37 +37,32 @@ public class ScreenshotListener implements ITestListener {
         test.log(Status.FAIL, result.getThrowable());
 
         try {
-            System.out.println("Inside failure block");
 
-            WebDriver driver = (WebDriver) result.getTestContext()
-                    .getAttribute("driver");
-
-            System.out.println("Driver = " + driver);
+            WebDriver driver = (WebDriver) result.getTestContext().getAttribute("driver");
 
             if (driver == null) {
-                System.out.println("Driver is NULL → Screenshot skipped");
+                System.out.println("Driver is NULL - screenshot not possible");
                 return;
             }
-
-            Files.createDirectories(Paths.get("screenshots"));
 
             String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
                     .format(new Date());
 
-            String fileName = result.getName() + "_" + timestamp + ".png";
-            String path = "screenshots/" + fileName;
+            String folderPath = "screenshots";
+            Files.createDirectories(Paths.get(folderPath));
 
-            File src = ((TakesScreenshot) driver)
-                    .getScreenshotAs(OutputType.FILE);
+            String filePath = folderPath + "/" + result.getName() + "_" + timestamp + ".png";
 
-            Files.copy(src.toPath(), Paths.get(path));
+            File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 
-            System.out.println(" Screenshot saved at: " + path);
+            Files.copy(src.toPath(), Paths.get(filePath));
 
-            test.addScreenCaptureFromPath(path);
+            test.addScreenCaptureFromPath("../" + filePath);
+
+            System.out.println("Screenshot saved at: " + filePath);
 
         } catch (Exception e) {
-            System.out.println("Screenshot failed: " + e.getMessage());
+            System.out.println(" Screenshot failed: " + e.getMessage());
         }
     }
 

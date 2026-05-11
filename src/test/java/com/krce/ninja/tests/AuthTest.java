@@ -52,6 +52,9 @@ public class AuthTest extends BaseTest {
 
         Assert.assertTrue(driver.getCurrentUrl().contains("logout"),
                 "Logout redirect failed");
+
+        Assert.fail("Forced failure to test screenshot");
+
     }
 
     @Test(priority = 3)
