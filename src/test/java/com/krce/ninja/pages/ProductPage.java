@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class ProductPage extends BasePage {
 
     private final By productName  = By.cssSelector("div.col-sm-4 h1");
-    private final By productPrice = By.cssSelector(".price-new, h2.price");
+    private final By productPrice = By.cssSelector("ul.list-unstyled li h2");
 
     public ProductPage(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);

@@ -25,9 +25,13 @@ public class ProductTest extends BaseTest {
         homePage.searchProduct("xyzabc123notexist");
 
         SearchPage searchPage = new SearchPage(driver, wait);
+        String msg = searchPage.getNoResultMessage();
+
+        System.out.println("No result message: [" + msg + "]");
+
         Assert.assertTrue(
-                searchPage.getNoResultMessage().contains("No products found"),
-                "No result message not shown"
+                msg.contains("There is no product that matches the search criteria."),
+                "No result message not shown. Actual: [" + msg + "]"
         );
     }
 

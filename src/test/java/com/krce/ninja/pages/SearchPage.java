@@ -7,8 +7,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class SearchPage extends BasePage {
 
-    private final By productList  = By.cssSelector(".product-thumb");
-    private final By noResultMsg  = By.cssSelector("#content p");
+    private final By productList = By.cssSelector(".product-thumb");
+    private final By noResultMsg = By.cssSelector("#content > p:not(:has(input))");
     private final By productNames = By.cssSelector(".caption h4 a");
 
     public SearchPage(WebDriver driver, WebDriverWait wait) {

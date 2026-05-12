@@ -1,72 +1,42 @@
 package com.krce.ninja.pages;
 
+import com.krce.ninja.base.BasePage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class HomePage {
+public class HomePage extends BasePage {
 
-    WebDriver driver;
-    WebDriverWait wait;
-
-    @FindBy(css = "a[title='My Account']")
-    WebElement myAccount;
-
-    @FindBy(css = "a[href*='account/login']")
-    WebElement loginLink;
-
-    @FindBy(css = "a[href*='account/logout']")
-    WebElement logoutLink;
-
-    @FindBy(css = "a[href*='account/register']")
-    WebElement registerLink;
-
-    @FindBy(name = "search")
-    WebElement searchBox;
-
-    @FindBy(css = "button[class*='search']")
-    WebElement searchBtn;
-
-    @FindBy(css = "#content h2:first-of-type")
-    WebElement myAccountText;
+    private final By myAccountMenu = By.cssSelector("a.dropdown-toggle span.hidden-xs");
+    private final By loginLink     = By.cssSelector("a[href*='account/login']");
+    private final By registerLink  = By.cssSelector("a[href*='account/register']");
+    private final By logoutLink    = By.cssSelector("a[href*='account/logout']");
+    private final By searchInput   = By.cssSelector("div#search input[name='search']");
+    private final By searchButton  = By.cssSelector("div#search button");
 
     public HomePage(WebDriver driver, WebDriverWait wait) {
-        this.driver = driver;
-        this.wait   = wait;
-        PageFactory.initElements(driver, this);
-    }
-
-    public void navigateToLogin() {
-        Actions actions = new Actions(driver);
-        wait.until(ExpectedConditions.visibilityOf(myAccount));
-        actions.moveToElement(myAccount).click().perform();
-        wait.until(ExpectedConditions.elementToBeClickable(loginLink)).click();
-    }
-
-    public void navigateToRegister() {
-        Actions actions = new Actions(driver);
-        wait.until(ExpectedConditions.visibilityOf(myAccount));
-        actions.moveToElement(myAccount).click().perform();
-        wait.until(ExpectedConditions.elementToBeClickable(registerLink)).click();
-    }
-
-    public void clickLogout() {
-        wait.until(ExpectedConditions.elementToBeClickable(myAccount)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(logoutLink)).click();
+        super(driver, wait);
     }
 
     public void searchProduct(String keyword) {
-        wait.until(ExpectedConditions.visibilityOf(searchBox));
-        searchBox.clear();
-        searchBox.sendKeys(keyword);
-        searchBtn.click();
+        wait.until(ExpectedConditions.titleContains("Your Store"));
+        type(searchInput, keyword);
+        click(searchButton);
     }
 
-    public boolean isLoginSuccessful() {
-        return wait.until(ExpectedConditions.visibilityOf(myAccountText)).isDisplayed();
+    public void navigateToLogin() {
+        click(myAccountMenu);
+        click(loginLink);
+    }
+
+    public void navigateToRegister() {
+        click(myAccountMenu);
+        click(registerLink);
+    }
+
+    public void clickLogout() {
+        click(myAccountMenu);
+        click(logoutLink);
     }
 }

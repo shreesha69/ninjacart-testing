@@ -25,8 +25,9 @@ public class BasePage {
     }
 
     protected void type(By locator, String text) {
-        waitForElement(locator).clear();
-        waitForElement(locator).sendKeys(text);
+        WebElement el = waitForElement(locator);
+        el.clear();
+        el.sendKeys(text);
     }
 
     protected void click(By locator) {
