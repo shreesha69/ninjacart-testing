@@ -3,7 +3,6 @@ package com.krce.ninja.pages;
 import com.krce.ninja.base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class HomePage extends BasePage {
@@ -20,7 +19,6 @@ public class HomePage extends BasePage {
     }
 
     public void searchProduct(String keyword) {
-        wait.until(ExpectedConditions.titleContains("Your Store"));
         type(searchInput, keyword);
         click(searchButton);
     }

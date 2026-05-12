@@ -10,6 +10,8 @@
             <class name="com.krce.ninja.tests.AuthTest"/>
             <class name="com.krce.ninja.tests.ProductTest"/>
             <class name="com.krce.ninja.tests.FormValidationTest"/>
+            <class name="com.krce.ninja.tests.CheckoutTest"/>
+            <class name="com.krce.ninja.tests.CartTest"/>
         </classes>
     </test>
 

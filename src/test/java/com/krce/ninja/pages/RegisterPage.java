@@ -2,78 +2,78 @@ package com.krce.ninja.pages;
 
 import com.krce.ninja.base.BasePage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+/**
+ * RegisterPage - handles all registration actions
+ */
 public class RegisterPage extends BasePage {
 
-    private final By firstNameField = By.id("input-firstname");
-    private final By lastNameField  = By.id("input-lastname");
-    private final By emailField     = By.id("input-email");
-    private final By phoneField     = By.id("input-telephone");
-    private final By passwordField  = By.id("input-password");
-    private final By confirmField   = By.id("input-confirm");
-    private final By privacyPolicy  = By.name("agree");
-    private final By submitButton   = By.cssSelector("input[value='Continue']");
-    private final By allErrors      = By.cssSelector(".text-danger");
-    private final By successHeading = By.cssSelector("#content h1");
+    // --- Locators ---
+    private final By firstName    = By.id("input-firstname");
+    private final By lastName     = By.id("input-lastname");
+    private final By email        = By.id("input-email");
+    private final By telephone    = By.id("input-telephone");
+    private final By password     = By.id("input-password");
+    private final By confirmPass  = By.id("input-confirm");
+    private final By agreeCheck   = By.name("agree");
+    private final By continueBtn  = By.cssSelector("input[value='Continue']");
+    private final By successMsg   = By.cssSelector("#content h1");
+    private final By firstNameErr = By.cssSelector(
+            "#input-firstname ~ .text-danger"
+    );
+    private final By lastNameErr  = By.cssSelector(
+            "#input-lastname ~ .text-danger"
+    );
+    private final By emailErr     = By.cssSelector(
+            "#input-email ~ .text-danger"
+    );
+    private final By passwordErr  = By.cssSelector(
+            "#input-password ~ .text-danger"
+    );
 
+    // --- Constructor ---
     public RegisterPage(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
     }
 
-    public void register(String firstName, String lastName,
-                         String email, String phone, String password) {
-        type(firstNameField, firstName);
-        type(lastNameField,  lastName);
-        type(emailField,     email);
-        type(phoneField,     phone);
-        type(passwordField,  password);
-        type(confirmField,   password);
-        click(privacyPolicy);
-        click(submitButton);
+    // --- Actions ---
+    public void register(String first, String last,
+                         String mail, String phone, String pass) {
+        type(firstName,   first);
+        type(lastName,    last);
+        type(email,       mail);
+        type(telephone,   phone);
+        type(password,    pass);
+        type(confirmPass, pass);
+        click(agreeCheck);
+        click(continueBtn);
     }
 
-    public void submitEmptyForm() {
-        click(privacyPolicy);
-        click(submitButton);
+    // Submits form without filling any fields
+    public void submitEmpty() {
+        click(continueBtn);
     }
 
-    public void submitWithInvalidEmail(String invalidEmail) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
-        waitForElement(firstNameField);
-
-        js.executeScript("document.getElementById('input-firstname').value='Test';");
-        js.executeScript("document.getElementById('input-lastname').value='User';");
-        js.executeScript("document.getElementById('input-telephone').value='9876543210';");
-        js.executeScript("document.getElementById('input-password').value='Test@1234';");
-        js.executeScript("document.getElementById('input-confirm').value='Test@1234';");
-        js.executeScript("document.getElementById('input-email').value=arguments[0];", invalidEmail);
-
-        WebElement agreeCheckbox = driver.findElement(privacyPolicy);
-        if (!agreeCheckbox.isSelected()) {
-            js.executeScript("arguments[0].click();", agreeCheckbox);
-        }
-
-        js.executeScript("document.querySelector(\"input[value='Continue']\").form.submit();");
-    }
-
-    public List<String> getAllErrorMessages() {
-        waitForElement(allErrors);
-        return driver.findElements(allErrors)
-                .stream()
-                .map(e -> e.getText())
-                .filter(t -> !t.isEmpty())
-                .collect(Collectors.toList());
-    }
-
+    // --- Validations ---
     public boolean isRegistrationSuccessful() {
-        return getText(successHeading).contains("Your Account Has Been Created");
+        return getText(successMsg).contains("Your Account Has Been Created");
+    }
+
+    public boolean isFirstNameErrorDisplayed() {
+        return isDisplayed(firstNameErr);
+    }
+
+    public boolean isLastNameErrorDisplayed() {
+        return isDisplayed(lastNameErr);
+    }
+
+    public boolean isEmailErrorDisplayed() {
+        return isDisplayed(emailErr);
+    }
+
+    public boolean isPasswordErrorDisplayed() {
+        return isDisplayed(passwordErr);
     }
 }
