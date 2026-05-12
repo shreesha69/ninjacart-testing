@@ -9,6 +9,7 @@
         <classes>
             <class name="com.krce.ninja.tests.AuthTest"/>
             <class name="com.krce.ninja.tests.ProductTest"/>
+            <class name="com.krce.ninja.tests.FormValidationTest"/>
         </classes>
     </test>
 
